@@ -30,9 +30,6 @@ jobs:
     steps:
       - name: job with single dependency
         run: sleep 10
-      - name: checking runner info
-        shell: pwsh
-        run: get-computerinfo
   my-fourth-job:
     name: job4
     needs: [my-first-job,my-second-job,my-third-job]
