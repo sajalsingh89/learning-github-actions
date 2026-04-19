@@ -11,3 +11,14 @@ jobs:
       - name: check os release
         run: cat /etc/os-release
     
+  my-second-job:
+    name: job2
+    runs-on: ubuntu-latest
+    steps:
+      - name: checking the host name
+        run: hostname
+      - name: running multiple commands
+        run: 
+          echo "hi welecome to git hub actions"
+          echo "current time is `date`"
+          sleep 20
