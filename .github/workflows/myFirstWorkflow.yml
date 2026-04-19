@@ -2,7 +2,7 @@ name: my-first-workflow
 #trigger on every push on any branch in this repo
 on: 
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: '*/5 * * * *'
   workflow_dispatch:
   push:
   
