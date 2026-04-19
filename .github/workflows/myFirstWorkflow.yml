@@ -1,11 +1,7 @@
 name: my-first-workflow
 #trigger on every push on any branch in this repo
-on: 
-  schedule:
-    - cron: '*/5 * * * *'
-  workflow_dispatch:
-  push:
-  
+on: push
+
 jobs:
   my-first-job:
     name: job1
@@ -30,7 +26,7 @@ jobs:
   my-third-job:
     name: job3
     needs: my-first-job
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: job with single dependency
         run: sleep 10
@@ -40,7 +36,7 @@ jobs:
   my-fourth-job:
     name: job4
     needs: [my-first-job,my-second-job,my-third-job]
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: job for multiple dependencies
         run: sleep 10
