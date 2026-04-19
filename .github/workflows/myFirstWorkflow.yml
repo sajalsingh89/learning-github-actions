@@ -1,0 +1,13 @@
+name: my-first-workflow
+#trigger on every push on any branch in this repo
+on: push
+jobs:
+  my-first-job:
+    name: job1
+    runs-on: ubuntu-latest
+    steps:
+      - name: run single command
+        run: echo "hello run the  first github flow"
+      - name: check os release
+        run: cat /etc/os-release
+    
