@@ -21,4 +21,20 @@ jobs:
         run: 
           echo "hi welecome to git hub actions"
           echo "current time is `date`"
-          sleep 20
+          sleep 50
+  my-third-job:
+    name: job3
+    needs: my-first-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: job with single dependency
+        run: sleep 10
+  my-fourth-job:
+    name: job4
+    needs: [my-first-job,my-second-job,my-third-job]
+    runs-on: ubuntu-latest
+    steps:
+      - name: job for multiple dependencies
+        run: sleep 10
+        
+  
