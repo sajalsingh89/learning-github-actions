@@ -7,37 +7,18 @@ jobs:
     name: job1
     runs-on: ubuntu-latest
     steps:
-      - name: run single command
-        run: echo "hello run the  first github flow"
-      - name: check os release
-        run: cat /etc/os-release
-    
-  my-second-job:
-    name: job2
-    runs-on: ubuntu-latest
-    steps:
-      - name: checking the host name
-        run: hostname
-      - name: running multiple commands
-        run: | 
-          echo "hi welecome to git hub actions"
-          echo "current time is `date`"
-          sleep 20
-  my-third-job:
-    name: job3
-    needs: my-first-job
-    runs-on: ubuntu-latest
-    steps:
-      - name: job with single dependency
-        run: sleep 10
-  my-fourth-job:
-    name: job4
-    needs: [my-first-job,my-second-job,my-third-job]
-    runs-on: ubuntu-latest
-    steps:
-      - name: job for multiple dependencies
-        run: sleep 10
-      - name: checking runner info
-        run: sw_vers
+      - name: step-1
+        run: |
+          pwd
+          ls -ltr
+          hostname
+
+      - name: step2-checkout
+        uses: actions/checkout@v6.0.2
+      - name: step-3
+        run: |
+          pwd
+          ls -ltr
+          hostname
         
   
