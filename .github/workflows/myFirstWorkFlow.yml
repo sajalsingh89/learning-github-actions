@@ -77,8 +77,9 @@ jobs:
      - name: Download directory artifact
        uses: actions/download-artifact@v7.0.0
        with:
-         name: directory_artifacts 
+         name: directory_artifacts
+         path: download_directory
      - name: Checking current directory post download
        run: |
          pwd
-         ls -ltr         
+         ls -ltr download_directory         
