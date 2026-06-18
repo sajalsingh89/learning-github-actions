@@ -22,3 +22,17 @@ jobs:
           echo "hi this is test multiple command line 1"
           echo "current time is `date`"
           sleep 20
+  job3:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - name: rune dependency 1
+        run: sleep 10
+  job4:
+    name: run multiple dependency
+    needs: [job1,job3]
+    runs-on: ubuntu-latest
+    steps:
+      - name: jib with multiple dependencies
+        run: echo "multiple dependency passed"
+        
