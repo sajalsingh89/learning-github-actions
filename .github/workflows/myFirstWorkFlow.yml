@@ -30,7 +30,7 @@ jobs:
         run: sleep 10
   job4:
     name: run multiple dependency
-    needs: [job1,job3]
+    needs: [job1,job2]
     runs-on: ubuntu-latest
     steps:
       - name: jib with multiple dependencies
