@@ -107,6 +107,7 @@ jobs:
          path: download_directory
      - name: Checking current directory post download
        run: |
+         ls -ltr
          echo "single file directory"
          ls -ltr single_file
          pwd
