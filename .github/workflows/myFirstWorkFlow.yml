@@ -1,9 +1,6 @@
 name: my-first-workflow
 # scheduler on every push to the repo
 on: 
-  schedule:
-    - cron: "*/10 * * * *"
-  workflow_dispatch:
   push:  
 
 
@@ -12,36 +9,17 @@ jobs:
     name: test basic workflow run
     runs-on: ubuntu-latest
     steps:
-      - name: running single command in job1
-        run: echo "Hi this is my first github workflow"
-      - name: checking the os release
-        run:  cat /etc/os-release
-  job2:
-    name: test multiline command
-    runs-on: ubuntu-latest
-    steps:
-      - name: checking  the hostname for runner
-        run: hostname
-      - name: Running multiple commands
-        run: 
-          echo "hi this is test multiple command line 1"
-          echo "current time is `date`"
-          sleep 20
-  job3:
-    name: running on windows latest
-    runs-on: windows-latest
-    needs: job1
-    steps:
-      - name: runner info
-        run: sleep 10
-      - name: checking the runner info
-        shell: pwsh
-        run: get-computerinfo
-  job4:
-    name: run multiple dependency
-    needs: [job1,job2]
-    runs-on: macos-latest
-    steps:
-      - name: jib with multiple dependencies
-        run: sw_vers
+      - name: running STEP-1
+        run: |
+          pwd
+          ls -ltr
+          hostname
+      - name: checkout
+        uses: actions/checkout@v6.0.3
+      - name: step-2
+        run: |
+          pwd
+          ls -ltr
+          hostname
+
         
