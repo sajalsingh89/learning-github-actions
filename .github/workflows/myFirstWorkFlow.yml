@@ -4,7 +4,7 @@ on: push
 
 jobs:
   job1:
-    name: JOB1
+    name: test basic workflow run
     runs-on: ubuntu-latest
     steps:
       - name: running single command in job1
@@ -12,7 +12,7 @@ jobs:
       - name: checking the os release
         run:  cat /etc/os-release
   job2:
-    name: JOB2
+    name: test multiline command
     runs-on: ubuntu-latest
     steps:
       - name: checking  the hostname for runner
@@ -23,16 +23,20 @@ jobs:
           echo "current time is `date`"
           sleep 20
   job3:
-    runs-on: ubuntu-latest
+    name: running on windows latest
+    runs-on: windows-latest
     needs: job1
     steps:
-      - name: rune dependency 1
+      - name: runner info
         run: sleep 10
+      - name: checking the runner info
+        shell: pwsh
+        run: get-computerinfo
   job4:
     name: run multiple dependency
     needs: [job1,job2]
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: jib with multiple dependencies
-        run: echo "multiple dependency passed"
+        run: sw_vers
         
