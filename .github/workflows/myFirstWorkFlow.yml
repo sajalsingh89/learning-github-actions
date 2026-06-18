@@ -81,7 +81,7 @@ jobs:
      - name: Checking current directory post download
        run: |
          pwd
-         ls -ltr download_directory         
+         ls -ltr         
   job4:
     name: test download directory in custom location
     needs: job1
