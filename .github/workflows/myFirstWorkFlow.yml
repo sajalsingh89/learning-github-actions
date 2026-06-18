@@ -1,5 +1,8 @@
 name: my-first-workflow
-on: push
+# scheduler on every push to the repo
+on: 
+  schedule:
+    - cron: "*/10 * * * *"
 
 
 jobs:
