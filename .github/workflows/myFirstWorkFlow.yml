@@ -47,4 +47,4 @@ jobs:
           path: |
             ./myartifact.txt
             artifacts/        
-            !**/hostname.txt
+            !**/hostnames.txt
