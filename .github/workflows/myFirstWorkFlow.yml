@@ -78,8 +78,36 @@ jobs:
        uses: actions/download-artifact@v7.0.0
        with:
          name: directory_artifacts
-         path: download_directory
      - name: Checking current directory post download
        run: |
          pwd
          ls -ltr download_directory         
+  job4:
+    name: test download directory in custom location
+    needs: job1
+    runs-on: ubuntu-latest
+    steps:
+     - name: checking current directory
+       run: |
+         pwd
+         ls -ltr
+     - name: creating custom directory
+       run: |
+         mkdir -p single_file
+         mkdir -p download_directory
+     - name: Download single file artifact
+       uses: actions/download-artifact@v7.0.0
+       with:
+         name: single_file 
+         path: single_file
+     - name: Download directory artifact
+       uses: actions/download-artifact@v7.0.0
+       with:
+         name: directory_artifacts
+         path: download_directory
+     - name: Checking current directory post download
+       run: |
+         echo "single file directory"
+         ls -ltr single_file
+         pwd
+         ls -ltr download_directory 
