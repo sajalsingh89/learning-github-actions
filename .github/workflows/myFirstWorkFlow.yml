@@ -43,3 +43,7 @@ jobs:
       - name: Running environemnt variabe
         run: 
           echo "[INFO] hi this is user $APP_USER and running this in $ENV_TYPE"
+      - name: referring repo secrets
+        run: |
+          echo "[INFO]  application password ${{ secrets.GA_APP_SECRETS }}"
+        
