@@ -74,4 +74,31 @@ jobs:
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v8.1.0
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}          
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    outputs:
+      image_tags: ${{ steps.vars.outputs.IMAGE_TAGS }}
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v7.0.0
+      - name: setup Docker buildx
+        uses: docker/setup-buildx-action@v3.0.0
+      - name: generate image tags
+        id: vars
+        run: |
+          IMAGE_TAGS = "${{ github.run_id }}-${ GITHUB_SHA::8 }"
+          echo "IMAGE_TAGS=${IMAGE_TAGS}" >> $GITHUB_OUTPUT
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5.0.0
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: perilious-mav-app:{{ steps.vars.outputs.IMAGE_TAGS }}
+      - name: Save Docker Image as artifact
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: perilious-mav-app-image
+          path: perilious-mav-app.tar     
