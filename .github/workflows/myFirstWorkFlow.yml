@@ -32,7 +32,7 @@ jobs:
       - name: Run Unit Tests
         run: pytest -v
       - name: run unit Tests
-        run :
+        run : |
           mkdir reports/
           pytest --junitxml=reports/unit-test-results.xml --cov=. --cov-report=term-missing -v
       - name: uploade code coverage report
