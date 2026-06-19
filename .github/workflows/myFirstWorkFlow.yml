@@ -50,8 +50,9 @@ jobs:
         run: |
           echo "[INFO]  triggered by ${{ github.event_name }}"
           echo "[INFO]  triggered by user ${{ github.actor }} in ${{ github.ref }}"
+          echo "[INFO]  triggered by user ${{ github.actor }} in ${{ github.ref_name }}"
           echo "[INFO]  triggered for environment ${{ github.env }}"
-          echo "[INFO]  Folder path ${{github.action_path }}"
+          echo "[INFO]  Folder path ${{ github.path }}"
           echo "[INFO]  job runner ${{ job.check_run_id }}"
           echo "[INFO]  operating system of runner ${{ runner.os }}"
           echo "[INFO]  operating system of runner ${{contains( env.ENV_TYPE, 'dev') }}"
