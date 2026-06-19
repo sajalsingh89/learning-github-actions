@@ -5,11 +5,10 @@ on:
     branches: 
       - main
       - dev
-      - 'feature-*'
-      - 'GAWF-*'
   pull_request:
     branches:
       - main
+  workflow_dispatch:     
 jobs:
   job1:
     name: test basic workflow run
