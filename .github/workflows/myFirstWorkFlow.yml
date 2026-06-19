@@ -9,6 +9,11 @@ on:
     branches:
       - main
   workflow_dispatch:     
+env:
+  ENV_TYPE: DEV
+  APP_USER: gawf-tester
+  APP_PORT: 80
+  
 jobs:
   job1:
     name: test basic workflow run
@@ -29,4 +34,48 @@ jobs:
           echo "hi this is test multiple command line 1"
           echo "current time is `date`"
           sleep 20
-  
+  job3:
+    name: test environemnt variables
+    runs-on: ubuntu-latest
+    steps:
+      - name: checking  the hostname for runner
+        run: hostname
+      - name: Running environemnt variabe
+        run: 
+          echo "[INFO] hi this is user $APP_USER and running this in $ENV_TYPE"
+      - name: referring repo secrets
+        run: |
+          echo "[INFO]  application password ${{ secrets.GA_APP_SECRETS }}"      
+      - name: referring context built-in variable
+        run: |
+          echo "[INFO]  triggered by ${{ github.event_name }}"
+          echo "[INFO]  triggered by user ${{ github.actor }} in ${{ github.ref }}"
+          echo "[INFO]  triggered by user ${{ github.actor }} in ${{ github.ref_name }}"
+          echo "[INFO]  triggered by user ${{ github.actor }} in ${{ github.head_ref }}"
+          echo "[INFO]  triggered for environment ${{ github.env }}"
+          echo "[INFO]  Folder path ${{ github.path }}"
+          echo "[INFO]  job runner ${{ job.check_run_id }}"
+          echo "[INFO]  operating system of runner ${{ runner.os }}"
+          echo "[INFO]  operating system of runner ${{contains( env.ENV_TYPE, 'dev') }}"      
+  staging:
+    name: stage deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: referring env variable
+        run: echo "[INFO] running deployment on host abc using $${{ vars.USER }}"
+      - name: referring environment
+        run: echo "[INFO] password for ${{ vars.USER }} is ${{ secrets.STG_USER }}"
+    environment:
+      name: STAGING
+    if: github.ref_name == 'dev'  
+  production:
+    name: production deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: referring env variable
+        run: echo "[INFO] running deployment on ${{ vars.HOST }} abc using $${{ vars.USER }}"
+      - name: referring environment
+        run: echo "[INFO] password for $${{ vars.USER }} is ${{ secrets.STG_USER }}"
+    environment:
+      name: PRODUCTION
+    if: github.ref_name == 'main'   
