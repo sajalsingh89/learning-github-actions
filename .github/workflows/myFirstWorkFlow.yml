@@ -89,7 +89,7 @@ jobs:
         id: vars
         run: |
           IMAGE_TAGS = "${{ github.run_id }}-${{ github.sha }}"
-          echo "IMAGE_TAGS=${IMAGE_TAGS}" >> $GITHUB_OUTPUT
+          echo "IMAGE_TAGS=$IMAGE_TAGS" >> $GITHUB_OUTPUT
       - name: Build and push Docker image
         uses: docker/build-push-action@v5.0.0
         with:
