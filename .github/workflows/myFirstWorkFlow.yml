@@ -15,67 +15,49 @@ env:
   APP_PORT: 80
   
 jobs:
-  job1:
-    name: test basic workflow run
+  unit-tests:
+    name: Running unit tests
     runs-on: ubuntu-latest
     steps:
-      - name: running single command in job1
-        run: echo "Hi this is my first github workflow"
-      - name: checking the os release
-        run:  cat /etc/os-release
-  job2:
-    name: test multiline command
-    runs-on: ubuntu-latest
-    steps:
-      - name: checking  the hostname for runner
-        run: hostname
-      - name: Running multiple commands
-        run: 
-          echo "hi this is test multiple command line 1"
-          echo "current time is `date`"
-          sleep 20
-  job3:
-    name: test environemnt variables
-    runs-on: ubuntu-latest
-    steps:
-      - name: checking  the hostname for runner
-        run: hostname
-      - name: Running environemnt variabe
-        run: 
-          echo "[INFO] hi this is user $APP_USER and running this in $ENV_TYPE"
-      - name: referring repo secrets
+      - name: checkout code
+        uses: actions/checkout@v7.0.0
+      - name: setup python
+        uses:  actions/setup-python@v6.2.0
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
         run: |
-          echo "[INFO]  application password ${{ secrets.GA_APP_SECRETS }}"      
-      - name: referring context built-in variable
-        run: |
-          echo "[INFO]  triggered by ${{ github.event_name }}"
-          echo "[INFO]  triggered by user ${{ github.actor }} in ${{ github.ref }}"
-          echo "[INFO]  triggered by user ${{ github.actor }} in ${{ github.ref_name }}"
-          echo "[INFO]  triggered by user ${{ github.actor }} in ${{ github.head_ref }}"
-          echo "[INFO]  triggered for environment ${{ github.env }}"
-          echo "[INFO]  Folder path ${{ github.path }}"
-          echo "[INFO]  job runner ${{ job.check_run_id }}"
-          echo "[INFO]  operating system of runner ${{ runner.os }}"
-          echo "[INFO]  operating system of runner ${{contains( env.ENV_TYPE, 'dev') }}"      
-  staging:
-    name: stage deployment
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Unit Tests
+        run: pytest -v
+      - name: run unit Tests
+        run : |
+          mkdir reports/
+          pytest --junitxml=reports/unit-test-results.xml --cov=. --cov-report=term-missing -v
+      - name: uploade code coverage report
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: unit-test-report
+          path: reports/    
+  codeql:
+    name: CodeQL Security Scan
     runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      matrix:
+        language: ['python']  
     steps:
-      - name: referring env variable
-        run: echo "[INFO] running deployment on host abc using $${{ vars.USER }}"
-      - name: referring environment
-        run: echo "[INFO] password for ${{ vars.USER }} is ${{ secrets.STG_USER }}"
-    environment:
-      name: STAGING
-    if: github.ref_name == 'dev'  
-  production:
-    name: production deployment
-    runs-on: ubuntu-latest
-    steps:
-      - name: referring env variable
-        run: echo "[INFO] running deployment on ${{ vars.HOST }} abc using $${{ vars.USER }}"
-      - name: referring environment
-        run: echo "[INFO] password for $${{ vars.USER }} is ${{ secrets.STG_USER }}"
-    environment:
-      name: PRODUCTION
-    if: github.ref_name == 'main'   
+      - name: checkout code
+        uses: actions/checkout@v7.0.0
+      - name: initialize codeql
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "security"
