@@ -1,8 +1,15 @@
 name: my-first-workflow
 # scheduler on every push to the repo
 on: 
-  workflow_dispatch:
-
+  push:
+    branches: 
+      - main
+      - dev
+      - 'feature-*'
+      - 'GAWF-*'
+  pull_request:
+    branches:
+      - main
 jobs:
   job1:
     name: test basic workflow run
@@ -23,21 +30,4 @@ jobs:
           echo "hi this is test multiple command line 1"
           echo "current time is `date`"
           sleep 20
-  job3:
-    name: running on windows latest
-    runs-on: windows-latest
-    needs: job1
-    steps:
-      - name: runner info
-        run: sleep 10
-      - name: checking the runner info
-        shell: pwsh
-        run: get-computerinfo
-  job4:
-    name: run multiple dependency
-    needs: [job1,job2]
-    runs-on: macos-latest
-    steps:
-      - name: jib with multiple dependencies
-        run: sw_vers
-        
+  
