@@ -51,6 +51,7 @@ jobs:
           echo "[INFO]  triggered by ${{ github.event_name }}"
           echo "[INFO]  triggered by user ${{ github.actor }} in ${{ github.ref }}"
           echo "[INFO]  triggered by user ${{ github.actor }} in ${{ github.ref_name }}"
+          echo "[INFO]  triggered by user ${{ github.actor }} in ${{ github.head_ref }}"
           echo "[INFO]  triggered for environment ${{ github.env }}"
           echo "[INFO]  Folder path ${{ github.path }}"
           echo "[INFO]  job runner ${{ job.check_run_id }}"
