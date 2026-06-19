@@ -30,4 +30,23 @@ jobs:
           echo "hi this is test multiple command line 1"
           echo "current time is `date`"
           sleep 20
-  
+  staging:
+    name: stage deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: referring env variable
+        run: echo "[INFO] running deployment on host abc using $${{ vars.USER }}"
+      - name: referring environment
+        run: echo "[INFO] password for $${{ vars.USER }} is ${{ secrets.STG_USER }}"
+    environment:
+      name: STAGING
+  production:
+    name: production deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: referring env variable
+        run: echo "[INFO] running deployment on ${{ vars.HOST }} abc using $${{ vars.USER }}"
+      - name: referring environment
+        run: echo "[INFO] password for $${{ vars.USER }} is ${{ secrets.STG_USER }}"
+    environment:
+      name: PRODUCTION      
