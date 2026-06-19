@@ -5,11 +5,10 @@ on:
     branches: 
       - main
       - dev
-      - 'feature-*'
-      - 'GAWF-*'
   pull_request:
     branches:
       - main
+  workflow_dispatch:     
 env:
   ENV_TYPE: DEV
   APP_USER: gawf-tester
