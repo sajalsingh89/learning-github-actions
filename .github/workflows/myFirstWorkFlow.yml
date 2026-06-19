@@ -10,6 +10,8 @@ on:
   pull_request:
     branches:
       - main
+env:
+  ENV_TYPE: DEV      
 jobs:
   job1:
     name: test basic workflow run
