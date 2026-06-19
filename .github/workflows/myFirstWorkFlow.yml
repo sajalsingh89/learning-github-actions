@@ -96,7 +96,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: false
-          tags: perilious-mav-app:{{ steps.vars.outputs.IMAGE_TAGS }}
+          tags: perilious-mav-app:${{ steps.vars.outputs.IMAGE_TAGS }}
       - name: Save Docker Image as artifact
         uses: actions/upload-artifact@v7.0.1
         with:
