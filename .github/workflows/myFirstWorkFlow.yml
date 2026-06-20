@@ -4,7 +4,6 @@ on:
   push:
     branches: 
       - main
-      - dev
   pull_request:
     branches:
       - main
@@ -76,6 +75,8 @@ jobs:
           path: reports/    
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v8.1.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}        
       - name: SonarQube Quality Gate Check
         uses: SonarSource/sonarqube-quality-gate-action@v1.1.0  
         env:
